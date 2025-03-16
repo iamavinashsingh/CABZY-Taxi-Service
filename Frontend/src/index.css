@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.H_imprint {
+    display: none !important;
+}
+.H_Attribution {
+    display: none !important;
+}
