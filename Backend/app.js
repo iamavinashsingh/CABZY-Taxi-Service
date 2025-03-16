@@ -18,7 +18,12 @@ const rideRoutes = require('./routes/ride.routes');
 const connectToDb = require('./db/db');
 connectToDb();
 
-app.use(cors());
+app.use(cors({
+    origin: "https://cabzy-taxi-service-frontend.onrender.com", // Frontend URL 
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true, // Agar cookies ya headers bhej rahe ho toh ye zaroori hai!
+}));
+
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({extended:true})); // for parsing application/x-www-form-urlencoded 
 app.use(cookieParser());
