@@ -22,7 +22,7 @@ module.exports.createRide = async (req, res) => {
     
     try {
         const ride = await rideService.createRide({ user: req.user._id, pickup, destination, vehicleType });
-        console.log("✅ Ride Created Successfully:", ride);
+        console.log("Ride Created Successfully:", ride);
         res.status(201).json(ride);  
     
         if (!pickup || !pickup[0] || !pickup[1]) {
@@ -41,7 +41,7 @@ module.exports.createRide = async (req, res) => {
         ride.otp = ""
         const rideWithUser = await rideModel.findOne({ _id: ride._id }).populate('user');
         captainsInRadius.forEach(captain => {
-            console.log(`🚀 Sending ride to Captain: ${captain.socketId}`);
+            console.log(` Sending ride to Captain: ${captain.socketId}`);
             sendMessageToSocketId(captain.socketId, {
                 event: 'new-ride',
                 data: rideWithUser

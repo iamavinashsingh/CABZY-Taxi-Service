@@ -25,7 +25,7 @@ module.exports.authUser = async (req, res, next) => {
         const user = await userModel.findById(decoded._id)
 
         req.user = user;
-
+        console.log(" Middleware Debug USer:", req.user);
         return next();
 
     } catch (err) {
@@ -54,7 +54,7 @@ module.exports.authCaptain = async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const captain = await captainModel.findById(decoded._id)
         req.captain = captain;
-
+        console.log("🔥 Middleware Debug Captain:",req.captain);
         return next()
     } catch (err) {
         console.log(err);

@@ -99,9 +99,9 @@ module.exports.createRide = async ({ user, pickup, destination, vehicleType }) =
         throw new Error('All fields are required');
     }
 
-    console.log("📌 Creating ride with coordinates:", pickup, destination, vehicleType);
+    console.log(" Creating ride with coordinates:", pickup, destination, vehicleType);
 
-    // 🗺️ 1️⃣ Reverse Geocode Pickup & Destination
+    //  Reverse Geocode Pickup & Destination
     const [pickupLat, pickupLng] = pickup.split(',');
     const [destinationLat, destinationLng] = destination.split(',');
 
