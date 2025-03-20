@@ -21,7 +21,7 @@ module.exports.createRide = async (req, res) => {
 
     
     try {
-        const ride = await rideService.createRide({ user: req.user._id, pickup, destination, vehicleType });
+        const ride = await rideService.createRide({ user: req.user ? req.user._id : null, pickup, destination, vehicleType });
         console.log("Ride Created Successfully:", ride);
         res.status(201).json(ride);  
     

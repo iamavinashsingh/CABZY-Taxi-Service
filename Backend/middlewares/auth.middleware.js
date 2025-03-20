@@ -21,20 +21,20 @@ module.exports.authUser = async (req, res, next) => {
 
     try {
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await userModel.findById(decoded._id)
-
-        req.user = user;
-        console.log(" Middleware Debug USer:", req.user,req.captain);
-        console.log("🔹 Token Received in Middleware:", req.headers.authorization);
-        console.log("✅ Decoded Token Data:", decoded);
+        const decoded = jwt.verify(token.replace("Bearer ", ""), process.env.JWT_SECRET);
+        const user = await userModel.findById(decoded._id);
         console.log("✅ User Found in Database:", user);
+        
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
 
+        req.user = user; // setting user in request object
 
-        return next();
-       
+        return next();       
 
     } catch (err) {
+        console.error(" Auth Middleware Error (User):", err);
         return res.status(401).json({ message: 'Unauthorized' });
     }
 }
@@ -57,19 +57,15 @@ module.exports.authCaptain = async (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(token.replace("Bearer ", ""), process.env.JWT_SECRET);
         const captain = await captainModel.findById(decoded._id)
-        req.captain = captain;
-        console.log("🔥 Middleware Debug Captain:",req.captain, req.user);
-        console.log("🔹 Token Received in Middleware:", req.headers.authorization);
-        console.log("✅ Decoded Token Data:", decoded);
-
+        console.log("Captain Found in Database:", captain);
+        req.captain = captain;  
 
         return next()
         
     } catch (err) {
-        console.log(err);
-
+        console.error(" Auth Middleware Error (Captain):", err);
         res.status(401).json({ message: 'Unauthorized' });
     }
 }
