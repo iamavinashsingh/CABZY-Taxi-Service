@@ -28,6 +28,8 @@ module.exports.authUser = async (req, res, next) => {
         console.log(" Middleware Debug USer:", req.user,req.captain);
         console.log("🔹 Token Received in Middleware:", req.headers.authorization);
         console.log("✅ Decoded Token Data:", decoded);
+        console.log("✅ User Found in Database:", user);
+
 
         return next();
        
