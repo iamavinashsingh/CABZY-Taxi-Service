@@ -7,7 +7,7 @@ let io;
 function initializeSocket(server) {
     io = socketIo(server, {
         cors: {
-            origin: '*',
+            origin: 'https://cabzy-taxi-service-frontend.onrender.com',
             methods: [ 'GET', 'POST' ]
         }
     });
