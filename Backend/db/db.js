@@ -5,7 +5,7 @@ function connectToDb() {
        
     })
     .then(() => {
-        console.log('Connected to DB');
+        console.log('Connected to DB Atlas');
     })
     .catch(err => {
         console.log('Error connecting to DB:', err);

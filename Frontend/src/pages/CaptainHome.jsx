@@ -10,7 +10,7 @@ import ConfirmRidePopUp from '../components/ConfirmRidePopUp'
 import { SocketContext } from '../context/SocketContext'
 import { CaptainDataContext } from '../context/CaptainContext'
 import axios from 'axios'
-
+import LiveTracking from '../components/LiveTracking' 
 
 
 
@@ -134,7 +134,7 @@ async function confirmRide() {
       </div>
       {/*====================================  MAP BG  ======================================================== */}
       <div className='h-1/2'>
-        <img className='h-full w-full object-cover' src={locImg} alt="" />
+        <LiveTracking />
       </div>
       {/*====================================  DRIVER INFO  ======================================================== */}
     <div className='h-1/2   bg-gradient-to-br from-[#4B4B55] via-[#373843] to-[#4B4B55] '>

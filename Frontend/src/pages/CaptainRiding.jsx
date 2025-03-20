@@ -7,6 +7,7 @@ import gsap from 'gsap'
 import FinishRide from '../components/FinishRide'
 import LiveTracking from '../components/LiveTracking'
 
+
 const CaptainRiding = () => {
     const [ finishRidePanel, setFinishRidePanel ] = useState(false)
     const finishRidePanelRef = useRef(null)
@@ -40,7 +41,7 @@ const CaptainRiding = () => {
             {/*====================================  MAP BG  ======================================================== */}
             <div className='h-3/4 w-screen'>
                 {/* <img className='h-full w-full object-cover' src={locImg} alt="" /> */}
-                <LiveTracking className='z-0 h-2/3 ' />
+                <LiveTracking />
             </div>
             {/*====================================   RIDE  INFO  ======================================================== */}
             <div  className='h-1/4 z-999 flex flex-col justify-between items-center p-4 bg-gradient-to-br from-[#4B4B55] via-[#373843] to-[#4B4B55] '>
