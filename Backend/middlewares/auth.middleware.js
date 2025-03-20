@@ -25,8 +25,12 @@ module.exports.authUser = async (req, res, next) => {
         const user = await userModel.findById(decoded._id)
 
         req.user = user;
-        console.log(" Middleware Debug USer:", req.user);
+        console.log(" Middleware Debug USer:", req.user,req.captain);
+        console.log("🔹 Token Received in Middleware:", req.headers.authorization);
+        console.log("✅ Decoded Token Data:", decoded);
+
         return next();
+       
 
     } catch (err) {
         return res.status(401).json({ message: 'Unauthorized' });
@@ -54,8 +58,13 @@ module.exports.authCaptain = async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const captain = await captainModel.findById(decoded._id)
         req.captain = captain;
-        console.log("🔥 Middleware Debug Captain:",req.captain);
+        console.log("🔥 Middleware Debug Captain:",req.captain, req.user);
+        console.log("🔹 Token Received in Middleware:", req.headers.authorization);
+        console.log("✅ Decoded Token Data:", decoded);
+
+
         return next()
+        
     } catch (err) {
         console.log(err);
 
