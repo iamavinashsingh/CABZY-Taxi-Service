@@ -70,7 +70,7 @@ module.exports.loginUser = async(req,res,next)=>{
 // EXPORTING GET USER PROFILE FUNCTION
 
 module.exports.getUserProfile = async(req,res,next)=>{
-   res.status(200).json(req.user); 
+    res.status(200).json(req.user); 
 }
 
 // EXPORTING LOGOUT USER FUNCTION
