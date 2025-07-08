@@ -98,7 +98,8 @@ Cabzy is a full-featured taxi booking platform that provides:
 ---
 
 ## 📁 Project Structure
-```
+
+```bash
 cabzy/
 ├── Frontend/ # Frontend application
 │ ├── src/
@@ -201,10 +202,13 @@ npm run dev
 | **Environment Separation** | Strict division between dev/prod configurations                 |
 
 ---
+
 <p align="center">
-  <img src="/Authentication workflow.png" alt="Centered Logo" width="300" />
+  <img src="/Authentication workflow.png" alt="Centered Logo" width="900" />
 </p>
+
 ---
+
 ### 🔐 Security
 
 - ✅ JWT authentication with **HTTP-only cookies**
