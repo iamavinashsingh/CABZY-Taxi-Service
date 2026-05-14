@@ -1,60 +1,61 @@
 import React from 'react'
-import bikeIcon from '../assets/bikeIcon.png'
 import cabIcon from '../assets/cabIcon.png'
-import autoIcon from '../assets/autoIcon.png'
-
 
 const WaitingForDriver = (props) => {
-return (
+  return (
     <div>
-            <h5 onClick={(props) => {
-                    props.setWaitingForDriver(false);
-                }}
-            className='absolute p-1 w-[90%] text-center top-0'><i className="text-3xl text-gray-300 ri-arrow-down-wide-line"></i>
-            </h5>
-            
-        <div className='flex items-center justify-between'>
-            <img className='h-16 ml-6' src={cabIcon} alt="" />
-            <div className='text-right'>
-                <h2 className='text-lg font-medium capitalize'>{props.ride?.captain?.fullname?.firstname}</h2>
-                <h4 className='text-xl font-semibold -mt-1 -mb-1 uppercase'>{props.ride?.captain?.vehicle?.plate}</h4>
-                <p className='text-sm text-gray-600'>Swift Dzire</p>
-                <div className='flex items-center justify-end my-2 '>
-                    <h1 className='text-lg  font-bold bg-[#242430] px-2 rounded-lg text-gray-300 '>{props.ride?.otp}</h1>
-                </div>     
-            </div>
+      <div className='sheet-handle' />
+      <h5 onClick={() => props.setWaitingForDriver(false)}
+        className='absolute top-3 right-5 text-[#86868b] cursor-pointer hover:text-[#1d1d1f] transition-colors'>
+        <i className="text-2xl ri-close-line"></i>
+      </h5>
+
+      {/* Driver card */}
+      <div className='flex items-center justify-between mb-5'>
+        <div className='flex items-center gap-3'>
+          <div className='w-14 h-14 rounded-2xl bg-gradient-to-br from-[#f5f5f7] to-[#e8e8ed] flex items-center justify-center'>
+            <img className='h-9' src={cabIcon} alt="Vehicle" />
+          </div>
+          <div>
+            <h2 className='text-[17px] font-semibold text-[#1d1d1f] capitalize'>{props.ride?.captain?.fullname?.firstname}</h2>
+            <p className='text-[13px] text-[#86868b]'>Swift Dzire · <span className='uppercase font-medium text-[#1d1d1f]'>{props.ride?.captain?.vehicle?.plate}</span></p>
+          </div>
         </div>
-            
-        <div className='flex flex-col gap-2 items-center justify-between '>
-                
-                <div className='w-full'>
-                    {/* =================================================== PICKUP ========================================================= */}
-                    <div className='flex items-center gap-5 p-3 border-b-2'>
-                    <i className=" text-lg ri-map-pin-3-line"></i>
-                    <div>
-                        <p className='text-sm -mt-1 text-gray-600'>{props.ride?.pickup}</p>
-                    </div>
-                    </div>
-                    {/* =================================================== DROP ========================================================= */}
-                    <div className='flex items-center gap-5 p-3 border-b-2'>
-                    <i className=" text-lg ri-map-pin-4-line"></i>
-                    <div>
-                        <p className='text-sm -mt-1 text-gray-600'>{props.ride?.destination}</p>
-                    </div>
-                    </div>
-                    {/* =================================================== MONEY ========================================================= */}
-                    <div className='flex items-center gap-5 p-3 border-b-2'>
-                    <i className=" text-lg ri-cash-line"></i>
-                    <div>
-                        <h3 className='text-lg font-semibold'>₹{props.ride?.fare}</h3>
-                        <p className='text-sm -mt-1 text-gray-600'>Cash Payment</p>
-                    </div>
-                    </div>
-    
-                </div>
+        {/* OTP */}
+        <div className='bg-[#1d1d1f] rounded-2xl px-4 py-2.5 text-center'>
+          <p className='text-[10px] text-white/50 uppercase tracking-widest'>OTP</p>
+          <span className='text-[20px] font-bold text-white font-mono tracking-[0.25em]'>{props.ride?.otp}</span>
         </div>
+      </div>
+
+      <div className='divider' />
+
+      {/* Ride details */}
+      <div className='space-y-1 mt-3'>
+        <div className='flex items-center gap-3 py-2.5'>
+          <div className='w-8 h-8 rounded-xl bg-[#0066cc]/10 flex items-center justify-center flex-shrink-0'>
+            <i className="text-[14px] text-[#0066cc] ri-map-pin-3-line"></i>
+          </div>
+          <p className='text-[14px] text-[#86868b] flex-1'>{props.ride?.pickup}</p>
+        </div>
+        <div className='flex items-center gap-3 py-2.5'>
+          <div className='w-8 h-8 rounded-xl bg-[#1d1d1f]/5 flex items-center justify-center flex-shrink-0'>
+            <i className="text-[14px] text-[#1d1d1f] ri-map-pin-4-line"></i>
+          </div>
+          <p className='text-[14px] text-[#86868b] flex-1'>{props.ride?.destination}</p>
+        </div>
+        <div className='flex items-center gap-3 py-2.5'>
+          <div className='w-8 h-8 rounded-xl bg-[#0066cc]/10 flex items-center justify-center flex-shrink-0'>
+            <i className="text-[14px] text-[#0066cc] ri-money-rupee-circle-line"></i>
+          </div>
+          <div>
+            <h3 className='text-[17px] font-semibold text-[#1d1d1f]'>₹{props.ride?.fare}</h3>
+            <p className='text-[12px] text-[#86868b]'>Cash Payment</p>
+          </div>
+        </div>
+      </div>
     </div>
-)
+  )
 }
 
 export default WaitingForDriver

@@ -1,9 +1,227 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ──────────────────────────────────────────────
+   BASE LAYER — Global defaults (DESIGN.md)
+   ──────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    font-size: 17px;             /* DESIGN.md body base */
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-canvas text-ink font-sans;
+    font-size: 17px;
+    line-height: 1.47;
+    letter-spacing: -0.374px;
+  }
+
+  ::selection {
+    background-color: rgba(0, 102, 204, 0.2);
+    color: #1d1d1f;
+  }
+
+  /* Focus-visible for accessibility */
+  :focus-visible {
+    outline: 2px solid #0071e3;
+    outline-offset: 2px;
+  }
+
+  input, select, textarea {
+    font-family: inherit;
+  }
+}
+
+/* ──────────────────────────────────────────────
+   COMPONENT LAYER — Reusable design-system classes
+   ──────────────────────────────────────────── */
+@layer components {
+
+  /* ── Primary Blue Pill CTA ── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center
+           bg-primary text-on-primary
+           font-normal text-[17px] leading-[1.47] tracking-[-0.374px]
+           rounded-pill
+           px-[22px] py-[11px]
+           transition-transform duration-150 ease-out
+           cursor-pointer select-none;
+  }
+  .btn-primary:active {
+    transform: scale(0.95);
+  }
+  .btn-primary:focus-visible {
+    outline: 2px solid #0071e3;
+    outline-offset: 2px;
+  }
+
+  /* ── Secondary Ghost Pill ── */
+  .btn-secondary-pill {
+    @apply inline-flex items-center justify-center
+           bg-transparent text-primary
+           font-normal text-[17px] leading-[1.47] tracking-[-0.374px]
+           border border-primary
+           rounded-pill
+           px-[22px] py-[11px]
+           transition-transform duration-150 ease-out
+           cursor-pointer select-none;
+  }
+  .btn-secondary-pill:active {
+    transform: scale(0.95);
+  }
+
+  /* ── Dark Utility Button ── */
+  .btn-dark-utility {
+    @apply inline-flex items-center justify-center
+           bg-ink text-on-dark
+           font-normal text-[14px] leading-[1.29] tracking-[-0.224px]
+           rounded-sm
+           px-[15px] py-[8px]
+           transition-transform duration-150 ease-out
+           cursor-pointer select-none;
+  }
+  .btn-dark-utility:active {
+    transform: scale(0.95);
+  }
+
+  /* ── Icon Circular Button ── */
+  .btn-icon-circular {
+    @apply flex items-center justify-center
+           w-[44px] h-[44px]
+           bg-surface-chip/60 text-ink
+           rounded-full
+           transition-transform duration-150 ease-out
+           cursor-pointer select-none;
+  }
+  .btn-icon-circular:active {
+    transform: scale(0.95);
+  }
+
+  /* ── Store Hero CTA ── */
+  .btn-store-hero {
+    @apply inline-flex items-center justify-center
+           bg-primary text-on-primary
+           font-light text-[18px] leading-[1.0]
+           rounded-pill
+           px-[28px] py-[14px]
+           transition-transform duration-150 ease-out
+           cursor-pointer select-none;
+  }
+  .btn-store-hero:active {
+    transform: scale(0.95);
+  }
+
+  /* ── Pill Input Field ── */
+  .input-field {
+    @apply w-full
+           bg-canvas text-ink
+           font-normal text-[17px] leading-[1.47] tracking-[-0.374px]
+           border border-hairline
+           rounded-pill
+           px-5 py-3
+           outline-none
+           transition-all duration-200 ease-out;
+  }
+  .input-field::placeholder {
+    @apply text-ink-muted-48;
+  }
+  .input-field:focus {
+    border-color: #0071e3;
+    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+  }
+
+  /* ── Pill Input on Dark Surface ── */
+  .input-field-dark {
+    @apply w-full
+           bg-white/10 text-on-dark
+           font-normal text-[17px] leading-[1.47] tracking-[-0.374px]
+           border border-white/20
+           rounded-pill
+           px-5 py-3
+           outline-none
+           transition-all duration-200 ease-out;
+  }
+  .input-field-dark::placeholder {
+    @apply text-white/50;
+  }
+  .input-field-dark:focus {
+    border-color: #2997ff;
+    box-shadow: 0 0 0 3px rgba(41, 151, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  /* ── Text Link ── */
+  .text-link {
+    @apply text-primary
+           font-normal text-[17px] leading-[1.47] tracking-[-0.374px]
+           cursor-pointer transition-opacity duration-150;
+  }
+  .text-link:hover {
+    opacity: 0.8;
+  }
+
+  .text-link-on-dark {
+    @apply text-primary-on-dark
+           font-normal text-[17px] leading-[1.47] tracking-[-0.374px]
+           cursor-pointer transition-opacity duration-150;
+  }
+  .text-link-on-dark:hover {
+    opacity: 0.8;
+  }
+
+  /* ── Utility Card ── */
+  .card-utility {
+    @apply bg-canvas
+           border border-hairline
+           rounded-lg
+           p-lg-sp;
+  }
+
+  /* ── Ride Info Row ── */
+  .ride-info-row {
+    @apply flex items-center gap-4 px-4 py-3
+           border-b border-divider-soft;
+  }
+  .ride-info-row:last-child {
+    @apply border-b-0;
+  }
+
+  /* ── Panel Sheet (bottom slide-up) ── */
+  .panel-sheet {
+    @apply fixed z-50 bottom-0 left-0 right-0
+           bg-canvas
+           rounded-t-[20px]
+           shadow-[0_-4px_30px_rgba(0,0,0,0.08)]
+           px-5 pb-8 pt-4;
+  }
+
+  /* ── Panel Handle ── */
+  .panel-handle {
+    @apply w-9 h-1 bg-hairline rounded-full mx-auto mb-4;
+  }
+
+  /* ── Loading Spinner ── */
+  .loading-spinner {
+    @apply w-5 h-5 border-2 border-primary/30 border-t-primary
+           rounded-full animate-spin-slow;
+  }
+}
+
+/* ──────────────────────────────────────────────
+   HERE Maps — hide attribution
+   ──────────────────────────────────────────── */
 .H_imprint {
-    display: none !important;
+  display: none !important;
 }
 .H_Attribution {
-    display: none !important;
+  display: none !important;
 }

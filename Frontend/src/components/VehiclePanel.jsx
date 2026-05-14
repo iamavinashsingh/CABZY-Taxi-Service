@@ -1,58 +1,46 @@
-import React from 'react'
+import React, { useState } from 'react'
 import bikeIcon from '../assets/bikeIcon.png'
 import cabIcon from '../assets/cabIcon.png'
 import autoIcon from '../assets/autoIcon.png'
 
 const VehiclePanel = (props) => {
+  const [selected, setSelected] = useState(null)
+
+  const vehicles = [
+    { key: 'car', icon: cabIcon, name: 'Cabzy Go', desc: '4 seats · Comfortable sedan', time: '3 min' },
+    { key: 'bike', icon: bikeIcon, name: 'Cabzy Bike', desc: '1 seat · Fastest option', time: '2 min' },
+    { key: 'auto', icon: autoIcon, name: 'Cabzy Auto', desc: '3 seats · Budget friendly', time: '1 min' },
+  ]
+
   return (
     <div>
-        <h5 onClick={() => {
-                props.setVehiclePanel(false)
-            }}
-          className='absolute p-1 w-[90%] text-center top-0'><i className="text-3xl text-gray-300 ri-arrow-down-wide-line"></i></h5>
-        <h3 className='text-2xl font-bold mb-2 text-[#242430]'>Choose a ride</h3>
-        {/* ====================================================== Mini Car  ==========================================*/}
-        <div onClick={() => {
-                props.setConfirmRidePanel(true)
-                props.setVehicle('car')
-              }}
-          className='flex items-center justify-between bg-[#F7F7F9] p-3 w-full rounded-xl border-2 active:border-[#EFBE1D] mb-2'>
-          <img className='h-12 mr-2' src={cabIcon} alt="" /> 
-          <div className='w-1/2'>
-            <h4 className='font-bold text-base'>Cabzy Lite <span><i className="ri-user-3-fill"></i>4</span></h4>
-            <h5 className='font-mono text-sm'>3 mins away</h5>
-            <p className='font-normal text-xs text-gray-600'>Affordable, compact ride</p>
-          </div> 
-          <h2 className='text-lg  font-semibold '>₹{props.fare?.car || 'N/A'}</h2>
-        </div>
-        {/* ====================================================== Bike  ==========================================*/}
-        <div onClick={() => {
-                props.setConfirmRidePanel(true)
-                props.setVehicle('bike')
-              }} 
-          className='flex items-center justify-between bg-[#F7F7F9] p-3 w-full rounded-xl border-2 active:border-[#EFBE1D] mb-2'>
-          <img className='h-12 mr-2' src={bikeIcon} alt="" /> 
-          <div className='w-1/2'>
-            <h4 className='font-bold text-base'>Cabzy Bike <span><i className="ri-user-3-fill"></i>1</span></h4>
-            <h5 className='font-mono text-sm'>2 mins away</h5>
-            <p className='font-normal text-xs text-gray-600'>Ultra-affordable, fastest ride</p>
-          </div> 
-          <h2 className='text-lg  font-semibold '>₹{props.fare?.bike || 'N/A'}</h2>
-        </div>
-        {/* ====================================================== Auto  ==========================================*/}
-        <div onClick={() => {
-                props.setConfirmRidePanel(true)
-                props.setVehicle('auto')
-              }}
-          className='flex items-center justify-between bg-[#F7F7F9] p-3 w-full rounded-xl border-2 active:border-[#EFBE1D] mb-2'>
-          <img className='h-12 mr-2' src={autoIcon} alt="" /> 
-          <div className='w-1/2'>
-            <h4 className='font-bold text-base'>Cabzy Auto <span><i className="ri-user-3-fill"></i>3</span></h4>
-            <h5 className='font-mono text-sm'>1 mins away</h5>
-            <p className='font-normal text-xs text-gray-600'>Economical, quick ride</p>
-          </div> 
-          <h2 className='text-lg  font-semibold '>₹{props.fare?.auto || 'N/A'}</h2>
-        </div>
+      <div className='sheet-handle' />
+      <h5 onClick={() => props.setVehiclePanel(false)}
+        className='absolute top-3 right-5 text-[#86868b] cursor-pointer hover:text-[#1d1d1f] transition-colors'>
+        <i className="text-2xl ri-close-line"></i>
+      </h5>
+      <h3 className='text-[22px] font-semibold text-[#1d1d1f] mb-1'>Choose a ride</h3>
+      <p className='text-[14px] text-[#86868b] mb-5'>Select the vehicle that suits your trip</p>
+
+      <div className='space-y-3'>
+        {vehicles.map(v => (
+          <div key={v.key}
+            onClick={() => { setSelected(v.key); props.setConfirmRidePanel(true); props.setVehicle(v.key); }}
+            className={`ride-card flex items-center gap-4 ${selected === v.key ? 'selected' : ''}`}>
+            <div className='w-16 h-16 rounded-2xl bg-gradient-to-br from-[#f5f5f7] to-[#e8e8ed] flex items-center justify-center flex-shrink-0'>
+              <img className='h-10' src={v.icon} alt={v.name} />
+            </div>
+            <div className='flex-1 min-w-0'>
+              <div className='flex items-center gap-2'>
+                <h4 className='text-[16px] font-semibold text-[#1d1d1f]'>{v.name}</h4>
+                <span className='text-[11px] text-[#0066cc] bg-[#0066cc]/8 px-2 py-0.5 rounded-full font-medium'>{v.time}</span>
+              </div>
+              <p className='text-[13px] text-[#86868b] mt-0.5'>{v.desc}</p>
+            </div>
+            <span className='text-[18px] font-bold text-[#1d1d1f]'>₹{props.fare?.[v.key] || '—'}</span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

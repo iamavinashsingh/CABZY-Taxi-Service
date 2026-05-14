@@ -1,13 +1,11 @@
 import React, { useState, useContext } from 'react'
 import logo from '../assets/Cabzy-Logo.png'
-import { Link , useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { UserDataContext } from '../context/UserContext'
+import ShaderBackground from '../components/ui/ShaderBackground'
 
-
-const UserSignUp
- = () => {
-  // use state to store the user input
+const UserSignUp = () => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -17,7 +15,7 @@ const UserSignUp
   const navigate = useNavigate()
   const { user, setUser } = useContext(UserDataContext)
 
-  const submitHandler = async(e)=> {
+  const submitHandler = async (e) => {
     e.preventDefault()
     const newUser = {
       fullname: {
@@ -33,71 +31,85 @@ const UserSignUp
       const data = response.data
       setUser(data.user)
       localStorage.setItem('token', data.token)
-      navigate('/home')}
+      navigate('/home')
     }
+  }
 
   return (
-    <div className='p-7 flex flex-col justify-between h-screen bg-gradient-to-br from-[#4B4B55] via-[#373843] to-[#4B4B55]'>
-      <div>
-        <img src={logo}  alt="Logo of Cabzy" className='w-28 mb-10' />
-        <form onSubmit={(e)=>{          
-          submitHandler(e)
-        }} >
-          <h3 className='text-base text-[#F7F7F9] font-medium mb-2'>What's your name</h3>
-          <div className='flex space-x-2 mb-7'>
+    <div className='min-h-screen relative flex items-center justify-center p-6 overflow-hidden'>
+      {/* Animated shader background */}
+      <ShaderBackground variant="light" speed={0.5} />
+
+      {/* Glass signup card */}
+      <div className='glass-card rounded-[28px] w-full max-w-[420px] p-8 page-enter relative z-10'>
+        {/* Logo */}
+        <div className='flex justify-center mb-6 scale-in'>
+          <div className='w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0066cc] to-[#2997ff] flex items-center justify-center shadow-lg shadow-blue-500/20'>
+            <img src={logo} alt="Cabzy" className='w-9 brightness-0 invert' />
+          </div>
+        </div>
+
+        {/* Heading */}
+        <div className='text-center mb-6 slide-in-bottom stagger-1'>
+          <h1 className='text-[26px] font-semibold text-[#1d1d1f] tracking-tight'>Create your account</h1>
+          <p className='text-[#86868b] text-[15px] mt-1'>Start riding with Cabzy today</p>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={(e) => submitHandler(e)} className='space-y-3.5'>
+          <div className='flex gap-3 slide-in-bottom stagger-2'>
+            <div className='flex-1'>
+              <label className='text-[12px] font-medium text-[#86868b] uppercase tracking-wider mb-1.5 block'>First name</label>
+              <input
+                required id='user-signup-firstname'
+                value={firstName} onChange={(e) => setFirstName(e.target.value)}
+                className='input-premium' type="text" placeholder='John' autoComplete="given-name"
+              />
+            </div>
+            <div className='flex-1'>
+              <label className='text-[12px] font-medium text-[#86868b] uppercase tracking-wider mb-1.5 block'>Last name</label>
+              <input
+                id='user-signup-lastname'
+                value={lastName} onChange={(e) => setLastName(e.target.value)}
+                className='input-premium' type="text" placeholder='Doe' autoComplete="family-name"
+              />
+            </div>
+          </div>
+
+          <div className='slide-in-bottom stagger-3'>
+            <label className='text-[12px] font-medium text-[#86868b] uppercase tracking-wider mb-1.5 block'>Email</label>
             <input
-              required
-              value={firstName}
-              onChange = {(e) => {
-                setFirstName(e.target.value)
-              }}
-              className='bg-[#F7F7F9] rounded-md px-4 py-2 border w-full text-base outline-none focus:ring-2 focus:ring-[#EFBE1D] placeholder:text-base'
-               type="text" 
-              placeholder='First Name'
-            />
-            <input
-              value={lastName}
-              onChange = {(e) => {
-                setLastName(e.target.value)
-              }}
-              className='bg-[#F7F7F9] rounded-md px-4 py-2 border w-full text-base outline-none focus:ring-2 focus:ring-[#EFBE1D] placeholder:text-base'
-              type="text" 
-              placeholder='Last Name'
+              required id='user-signup-email'
+              value={email} onChange={(e) => setEmail(e.target.value)}
+              className='input-premium' type="email" placeholder='you@example.com' autoComplete="email"
             />
           </div>
-          <h3 className='text-base text-[#F7F7F9] font-medium mb-2'>What's your email</h3>
-          <input
-            required
-            value={email}
-            onChange = {(e) => {
-              setEmail(e.target.value)
-            }}
-            className='bg-[#F7F7F9] rounded-md px-4 py-2 mb-7 border w-full text-base outline-none focus:ring-2 focus:ring-[#EFBE1D] placeholder:text-base'
-            type="email" 
-            placeholder='example@email.com'
-          />
 
-          <h3 className='text-base text-[#F7F7F9] font-medium  mb-2'>Enter Password</h3>        
-          <input 
-            required
-            value={password}
-            onChange = {(e) => {
-              setPassword(e.target.value)
-            }}
-            className='bg-[hsl(240,14%,97%)] rounded-md px-4 py-2 mb-7 border w-full text-base outline-none focus:ring-2 focus:ring-[#EFBE1D] placeholder:text-base'
-            type="password"
-            placeholder='password'/>
+          <div className='slide-in-bottom stagger-4'>
+            <label className='text-[12px] font-medium text-[#86868b] uppercase tracking-wider mb-1.5 block'>Password</label>
+            <input
+              required id='user-signup-password'
+              value={password} onChange={(e) => setPassword(e.target.value)}
+              className='input-premium' type="password" placeholder='Min. 8 characters' autoComplete="new-password"
+            />
+          </div>
 
-          <button className='bg-[#242430] rounded-md px-4 py-2 mb-2 w-full text-base text-[#F7F7F9] font-medium active:scale-[99%] transition-transform duration-100'>Create account</button> 
-                  
+          <div className='slide-in-bottom stagger-5 pt-2'>
+            <button id='user-signup-submit' type='submit' className='btn-hero w-full'>
+              Create Account
+            </button>
+          </div>
         </form>
-        <p className='text-[#F7F7F9] text-center'>Already have account ? <Link to='/login' className='text-[#EFBE1D] font-light'>Login here</Link></p>
-        
+
+        <p className='text-[14px] text-[#86868b] text-center mt-5 slide-in-bottom stagger-6'>
+          Already have an account?{' '}
+          <Link to='/login' className='text-[#0066cc] font-medium hover:underline'>Sign in</Link>
+        </p>
+
+        <p className='text-[11px] text-[#86868b]/60 text-center mt-4 leading-relaxed'>
+          By creating an account, you agree to our Terms of Service and Privacy Policy.
+        </p>
       </div>
-      <div>
-        <p className='text-[10px] text-[#F7F7F9] leading-tight'>This site is protected by reCAPTCHA, and the <span className='underline font-semibold'>Google Privacy Policy</span> and <span className='underline font-semibold'>Terms of Service*</span> apply.</p>
-      </div>
-      
     </div>
   )
 }

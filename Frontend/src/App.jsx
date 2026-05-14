@@ -1,4 +1,5 @@
 import React from 'react'
+import './App.css'
 import Start from './pages/Start'
 import Home from './pages/Home'
 import CaptainHome from './pages/CaptainHome'
@@ -16,7 +17,7 @@ import CaptainRiding from './pages/CaptainRiding'
 
 function App() {
   return (
-    <div>
+    <div className='min-h-screen bg-canvas text-ink font-sans antialiased'>
       <Routes>
         <Route path="/riding" element={ <UserProtectWrapper> <Riding /> </UserProtectWrapper> } />
         <Route path="/home" element={ <UserProtectWrapper> <Home /> </UserProtectWrapper> } />
@@ -25,7 +26,7 @@ function App() {
         <Route path="/captains/logout" element={ <CaptainProtectWrapper> <CaptainLogout /> </CaptainProtectWrapper> } />
         <Route path="/captain-riding" element={ <CaptainProtectWrapper> <CaptainRiding /> </CaptainProtectWrapper> } />       
         <Route path="/" element={<Start />} />
-        <Route path="/login" element={<UserLogIn />} /> 
+        <Route path="/login" element={<UserLogIn />} />
         <Route path="/signup" element={<UserSignUp />} />
         <Route path="/captain-login" element={<CaptainLogIn />} />
         <Route path="/captain-signup" element={<CaptainSignUp />} />     

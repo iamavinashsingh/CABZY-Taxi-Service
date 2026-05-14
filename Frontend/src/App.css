@@ -1,42 +1,325 @@
+/* ──────────────────────────────────────────────
+   APP — Premium Global Styles & Animations
+   ──────────────────────────────────────────── */
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* ── Custom Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 9999px; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ══════════════════════════════════════════════
+   ANIMATED MESH GRADIENT BACKGROUND
+   ══════════════════════════════════════════════ */
+.mesh-gradient {
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(0, 102, 204, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(41, 151, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 40% 80%, rgba(0, 113, 227, 0.08) 0%, transparent 50%),
+    linear-gradient(135deg, #f5f5f7 0%, #ffffff 50%, #f5f5f7 100%);
+  background-size: 200% 200%;
+  animation: meshShift 12s ease-in-out infinite;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+@keyframes meshShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Dark mesh for captain/dark pages */
+.mesh-gradient-dark {
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(41, 151, 255, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(0, 102, 204, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(0, 71, 227, 0.06) 0%, transparent 50%),
+    linear-gradient(135deg, #0a0a0a 0%, #1a1a1c 50%, #0a0a0a 100%);
+  background-size: 200% 200%;
+  animation: meshShift 12s ease-in-out infinite;
 }
 
-.card {
-  padding: 2em;
+/* ══════════════════════════════════════════════
+   GLASSMORPHISM
+   ══════════════════════════════════════════════ */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.read-the-docs {
-  color: #888;
+.glass-dark {
+  background: rgba(30, 30, 32, 0.75);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: saturate(180%) blur(30px);
+  -webkit-backdrop-filter: saturate(180%) blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+/* ══════════════════════════════════════════════
+   PREMIUM ANIMATIONS
+   ══════════════════════════════════════════════ */
+.page-enter {
+  animation: pageReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes pageReveal {
+  0% { opacity: 0; transform: translateY(20px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+
+.slide-in-bottom {
+  animation: slideInBottom 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes slideInBottom {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease-out both;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.scale-in {
+  animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes scaleIn {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Floating animation for hero elements */
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Shimmer loading effect */
+.shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Pulse dots */
+.pulse-dots {
+  display: flex; gap: 6px; align-items: center; justify-content: center;
+}
+.pulse-dots span {
+  width: 8px; height: 8px; border-radius: 50%; background: #0066cc;
+  animation: pulseDot 1.4s ease-in-out infinite;
+}
+.pulse-dots span:nth-child(2) { animation-delay: 0.2s; }
+.pulse-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+/* ══════════════════════════════════════════════
+   PREMIUM INPUT STYLES
+   ══════════════════════════════════════════════ */
+.input-premium {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 16px;
+  color: #1d1d1f;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1.5px solid transparent;
+  border-radius: 14px;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+}
+.input-premium::placeholder { color: #86868b; }
+.input-premium:focus {
+  background: white;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.input-premium-dark {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 16px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+}
+.input-premium-dark::placeholder { color: rgba(255,255,255,0.4); }
+.input-premium-dark:focus {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #2997ff;
+  box-shadow: 0 0 0 4px rgba(41, 151, 255, 0.15);
+}
+
+/* ══════════════════════════════════════════════
+   PREMIUM BUTTONS
+   ══════════════════════════════════════════════ */
+.btn-hero {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 16px 32px;
+  font-size: 17px; font-weight: 500; letter-spacing: -0.2px;
+  color: white;
+  background: linear-gradient(135deg, #0066cc 0%, #0071e3 50%, #2997ff 100%);
+  background-size: 200% 200%;
+  border: none; border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative; overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3), 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.btn-hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 100%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.btn-hero:hover { 
+  transform: translateY(-1px);
+  box-shadow: 0 8px 25px rgba(0, 102, 204, 0.35), 0 2px 6px rgba(0, 0, 0, 0.1);
+  background-position: 100% 100%;
+}
+.btn-hero:hover::after { opacity: 1; }
+.btn-hero:active { transform: translateY(0) scale(0.98); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 14px 28px;
+  font-size: 16px; font-weight: 500;
+  color: #0066cc;
+  background: transparent;
+  border: 1.5px solid rgba(0, 102, 204, 0.3);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-ghost:hover {
+  background: rgba(0, 102, 204, 0.06);
+  border-color: #0066cc;
+}
+.btn-ghost:active { transform: scale(0.98); }
+
+/* ══════════════════════════════════════════════
+   RIDE CARDS & PANELS
+   ══════════════════════════════════════════════ */
+.ride-card {
+  background: white;
+  border-radius: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 16px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+.ride-card:hover {
+  border-color: rgba(0, 102, 204, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 102, 204, 0.08);
+  transform: translateY(-2px);
+}
+.ride-card:active {
+  transform: translateY(0) scale(0.98);
+}
+.ride-card.selected {
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.12), 0 4px 20px rgba(0, 102, 204, 0.08);
+}
+
+.bottom-sheet {
+  position: fixed; z-index: 50; bottom: 0; left: 0; right: 0;
+  background: white;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.08);
+  padding: 12px 24px 32px;
+}
+
+.sheet-handle {
+  width: 36px; height: 5px;
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 100px;
+  margin: 0 auto 16px;
+}
+
+/* ══════════════════════════════════════════════
+   LOADING SPINNER
+   ══════════════════════════════════════════════ */
+.loading-spinner {
+  width: 24px; height: 24px;
+  border: 2.5px solid rgba(0, 102, 204, 0.15);
+  border-top-color: #0066cc;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ══════════════════════════════════════════════
+   STAT CARDS (Captain Dashboard)
+   ══════════════════════════════════════════════ */
+.stat-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 16px;
+  transition: all 0.3s;
+}
+.stat-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ══════════════════════════════════════════════
+   DIVIDER
+   ══════════════════════════════════════════════ */
+.divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.06);
+}
+.divider-dark {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
 }

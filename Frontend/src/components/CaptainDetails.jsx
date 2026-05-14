@@ -1,63 +1,75 @@
-import React, {useContext} from 'react'
-import {CaptainDataContext} from '../context/CaptainContext'
+import React, { useContext } from 'react'
+import { CaptainDataContext } from '../context/CaptainContext'
 import pfp from '../assets/atulPFP.jpg'
-import ToggleSwitch from "../components/ToggleSwitch"; 
+import ToggleSwitch from "../components/ToggleSwitch";
 
-const   CaptainDetails = ({ handleUpdateLocationClick, isTrackingEnabled }) => {
+const CaptainDetails = ({ handleUpdateLocationClick, isTrackingEnabled }) => {
+  const { captain } = useContext(CaptainDataContext);
 
-    const { captain } = useContext(CaptainDataContext);
+  return (
+    <div className='h-full px-5 py-5 flex flex-col'>
+      {/* Profile row */}
+      <div className='flex items-center justify-between mb-5'>
+        <div className='flex items-center gap-3'>
+          <div className='relative'>
+            <img className='h-14 w-14 rounded-2xl object-cover' src={pfp} alt="Captain" />
+            <div className='absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-green-500 border-2 border-[#0a0a0a]' />
+          </div>
+          <div>
+            <h2 className='text-[17px] font-semibold text-white'>
+              {captain.fullname.firstname + " " + captain.fullname.lastname}
+            </h2>
+            <p className='text-[13px] text-white/40'>
+              {captain.vehicle.plate} · Swift Dzire
+            </p>
+          </div>
+        </div>
+        <ToggleSwitch onToggle={handleUpdateLocationClick} isOn={isTrackingEnabled} />
+      </div>
 
-return (
-    <div className='h-1/2 px-4 py-2 '>
-        <div className='flex items-center justify-between border-gray-600 border-b-2 p-2'>
-        <img className='h-16 rounded-full' src={pfp} alt="" />
-        <ToggleSwitch onToggle={handleUpdateLocationClick} isOn={isTrackingEnabled}/>
-        <div className='text-right'>
-        <h2 className='text-lg text-[#F7F7F9] font-bold'>{captain.fullname.firstname+" "+captain.fullname.lastname}</h2>
-        <h4 className='text-xl text-[#F7F7F9]  font-semibold -mt-1 -mb-1 uppercase'>{captain.vehicle.plate}</h4>
-        <p className='text-sm text-gray-300'>Swift Dzire</p>                  
+      <div className='divider-dark' />
+
+      {/* Stats grid */}
+      <div className='flex-1 grid grid-cols-2 gap-3 mt-4'>
+        <div className='stat-card'>
+          <div className='flex items-center gap-2 mb-2'>
+            <div className='w-8 h-8 rounded-xl bg-[#2997ff]/15 flex items-center justify-center'>
+              <i className="text-[14px] text-[#2997ff] ri-time-line"></i>
+            </div>
+          </div>
+          <h3 className='text-[22px] font-bold text-white'>45.6</h3>
+          <p className='text-[11px] text-white/30 uppercase tracking-wider mt-0.5'>Hours online</p>
         </div>
+        <div className='stat-card'>
+          <div className='flex items-center gap-2 mb-2'>
+            <div className='w-8 h-8 rounded-xl bg-[#2997ff]/15 flex items-center justify-center'>
+              <i className="text-[14px] text-[#2997ff] ri-steering-2-line"></i>
+            </div>
+          </div>
+          <h3 className='text-[22px] font-bold text-white'>326.1</h3>
+          <p className='text-[11px] text-white/30 uppercase tracking-wider mt-0.5'>Kms driven</p>
         </div>
-                    
-        <div className='flex mt-5'>                          
-        <div className='w-full grid grid-cols-2 grid-rows-2 gap-2 p-4'>
-          {/* =================================================== Online Time ========================================================= */}
-            <div className='flex items-center gap-5 px-2 py-4 border-b-2 border-r-2 bg-gray-100 rounded-md'>
-            <i className=" text-lg ri-time-line"></i>
-            <div>
-                <h3 className='text-lg font-semibold'>45.6 hrs</h3>
-                <p className='text-xs -mt-1 text-gray-600'>Hours online</p>
+        <div className='stat-card'>
+          <div className='flex items-center gap-2 mb-2'>
+            <div className='w-8 h-8 rounded-xl bg-[#2997ff]/15 flex items-center justify-center'>
+              <i className="text-[14px] text-[#2997ff] ri-money-rupee-circle-line"></i>
             </div>
-            </div>
-            {/* =================================================== DISTANCE TRAVELLED ========================================================= */}
-            <div className='flex items-center gap-5 px-2 py-4 border-b-2 border-r-2 bg-gray-100 rounded-md'>
-            <i className=" text-lg ri-steering-2-line"></i>
-            <div>
-                <h3 className='text-lg font-semibold'>326.1 KM</h3>
-                <p className='text-xs -mt-1 text-gray-600'>Distance driven</p>
-            </div>
-            </div>
-            {/* =================================================== EARNINGS ========================================================= */}
-            <div className='flex items-center gap-5 px-2 py-4 border-b-2 border-r-2 bg-gray-100 rounded-md'>
-            <i className=" text-xl  text-[#1C8147] ri-money-rupee-circle-line"></i>
-            <div>
-                <h3 className='text-lg  font-semibold'>₹2803.20</h3>
-                <p className='text-xs -mt-1 text-gray-600'>Earned</p>
-            </div>
-            </div>
-            {/* =================================================== RATING ========================================================= */}
-            <div className='flex items-center gap-5 px-2 py-4 border-b-2 border-r-2 bg-gray-100 rounded-md'>
-            <i className=" text-2xl text-[#EFBE1D] ri-star-half-s-line"></i>
-            <div>
-                <h3 className='text-lg font-semibold'>4.3</h3>
-                <p className='text-xs -mt-1 text-gray-600'>Current Rating</p>
-            </div>
-            </div>          
+          </div>
+          <h3 className='text-[22px] font-bold text-white'>₹2,803</h3>
+          <p className='text-[11px] text-white/30 uppercase tracking-wider mt-0.5'>Total earned</p>
         </div>
-        
+        <div className='stat-card'>
+          <div className='flex items-center gap-2 mb-2'>
+            <div className='w-8 h-8 rounded-xl bg-[#2997ff]/15 flex items-center justify-center'>
+              <i className="text-[14px] text-[#2997ff] ri-star-half-s-line"></i>
+            </div>
+          </div>
+          <h3 className='text-[22px] font-bold text-white'>4.3</h3>
+          <p className='text-[11px] text-white/30 uppercase tracking-wider mt-0.5'>Rating</p>
         </div>
+      </div>
     </div>
-)
+  )
 }
 
 export default CaptainDetails

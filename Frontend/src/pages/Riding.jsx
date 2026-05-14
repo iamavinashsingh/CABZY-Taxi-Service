@@ -9,71 +9,74 @@ import { SocketContext } from '../context/SocketContext'
 import { useNavigate } from 'react-router-dom'
 import LiveTracking from '../components/LiveTracking'
 
-
 const Riding = () => {
-
   const location = useLocation()
-  const { ride } = location.state || {} // Retrieve ride data
+  const { ride } = location.state || {}
   const { socket } = useContext(SocketContext)
   const navigate = useNavigate()
 
-  
-
   socket.on("ride-ended", () => {
-      navigate('/home', { replace: true })
+    navigate('/home', { replace: true })
   })
 
   return (
-    <div className='h-screen '>
-      {/*====================================  Home ======================================================== */}
-      <Link to='/home' className='fixed  h-10 w-10 flex items-center justify-center bg-[#242430] rounded-full top-2 right-2 z-50 cursor-pointer'>
-        <i className="text-xl font-semibold text-[#F7F7F9] ri-home-5-line"></i>
+    <div className='h-screen bg-[#f5f5f7]'>
+      {/* Home button - floating glass */}
+      <Link to='/home' className='fixed z-50 top-5 right-5 w-10 h-10 rounded-xl bg-white/80 backdrop-blur-xl shadow-lg flex items-center justify-center hover:bg-white transition-all'>
+        <i className="text-[18px] text-[#1d1d1f] ri-home-5-line"></i>
       </Link>
-      {/*====================================  MAP BG  ======================================================== */}
-      <div className='h-1/2'>
-        {/* <img className='h-full w-full object-cover' src={mapBg} alt="" /> */}
+
+      {/* Map */}
+      <div className='h-[55%]'>
         <LiveTracking />
       </div>
-      {/*====================================  DRIVER INFO  ======================================================== */}
-      <div className='h-1/2 px-4 py-2'>
-        <div className='flex items-center justify-between'>
-          <img className='h-12' src={cabIcon} alt="" />
+
+      {/* Ride info - floating card */}
+      <div className='h-[45%] bg-white rounded-t-[28px] -mt-6 relative z-10 flex flex-col px-6 py-5'>
+        {/* Driver header */}
+        <div className='flex items-center justify-between pb-4'>
+          <div className='flex items-center gap-3'>
+            <div className='w-12 h-12 rounded-2xl bg-gradient-to-br from-[#f5f5f7] to-[#e8e8ed] flex items-center justify-center'>
+              <img className='h-8' src={cabIcon} alt="Vehicle" />
+            </div>
+            <div>
+              <h2 className='text-[17px] font-semibold text-[#1d1d1f] capitalize'>{ride?.captain?.fullname?.firstname}</h2>
+              <p className='text-[13px] text-[#86868b]'>Swift Dzire</p>
+            </div>
+          </div>
           <div className='text-right'>
-          <h2 className='text-lg font-medium capitalize'>{ride?.captain?.fullname?.firstname}</h2>
-          <h4 className='text-xl font-bold -mt-1 -mb-1 uppercase'>{ride?.captain?.vehicle?.plate}</h4>
-          <p className='text-sm text-gray-600'>Swift Dzire</p>                  
+            <h4 className='text-[18px] font-bold text-[#1d1d1f] uppercase tracking-wider'>{ride?.captain?.vehicle?.plate}</h4>
           </div>
         </div>
                       
-        <div className='flex flex-col gap-2 items-center justify-between '>                          
-          <div className='w-full'>
-          {/* =================================================== PICKUP ========================================================= */}
-            <div className='flex items-center gap-5 p-2 border-b-2'>
-            <i className=" text-lg ri-map-pin-3-line"></i>
-            <div>                
-              <p className='text-sm -mt-1 text-gray-600'>{ride?.pickup}</p>
+        <div className='divider' />
+
+        {/* Details */}
+        <div className='flex-1 flex flex-col mt-3 space-y-1'>
+          <div className='flex items-center gap-3 py-2.5'>
+            <div className='w-8 h-8 rounded-xl bg-[#0066cc]/10 flex items-center justify-center flex-shrink-0'>
+              <i className="text-[14px] text-[#0066cc] ri-map-pin-3-line"></i>
             </div>
-            </div>
-            {/* =================================================== DROP ========================================================= */}
-            <div className='flex items-center gap-5 p-2 border-b-2'>
-              <i className=" text-lg ri-map-pin-4-line"></i>
-              <div>
-                <p className='text-sm -mt-1 text-gray-600'>{ride?.destination}</p>
-              </div>
-            </div>
-          {/* =================================================== MONEY ========================================================= */}
-            <div className='flex items-center gap-5 p-2 border-b-2'>
-              <i className=" text-lg ri-cash-line"></i>
-              <div>
-                <h3 className='text-lg font-semibold'>₹{ride?.fare}</h3>
-                <p className='text-sm -mt-1 text-gray-600'>Cash Payment</p>
-              </div>
-            </div>
-          
+            <p className='text-[14px] text-[#86868b] flex-1 leading-snug'>{ride?.pickup}</p>
           </div>
-          
+          <div className='flex items-center gap-3 py-2.5'>
+            <div className='w-8 h-8 rounded-xl bg-[#1d1d1f]/5 flex items-center justify-center flex-shrink-0'>
+              <i className="text-[14px] text-[#1d1d1f] ri-map-pin-4-line"></i>
+            </div>
+            <p className='text-[14px] text-[#86868b] flex-1 leading-snug'>{ride?.destination}</p>
+          </div>
+          <div className='flex items-center gap-3 py-2.5'>
+            <div className='w-8 h-8 rounded-xl bg-[#0066cc]/10 flex items-center justify-center flex-shrink-0'>
+              <i className="text-[14px] text-[#0066cc] ri-money-rupee-circle-line"></i>
+            </div>
+            <div>
+              <h3 className='text-[17px] font-semibold text-[#1d1d1f]'>₹{ride?.fare}</h3>
+              <p className='text-[12px] text-[#86868b]'>Cash Payment</p>
+            </div>
+          </div>
         </div>
-        <button className='bg-[#242430] rounded-md px-4 py-2  w-full text-lg text-[#F7F7F9] font-bold mt-2 active:scale-[99%] transition-transform duration-100 '>Make Payment</button>
+        
+        <button className='btn-hero w-full'>Make Payment</button>
       </div>
     </div>
   )

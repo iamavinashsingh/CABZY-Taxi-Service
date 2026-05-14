@@ -4,136 +4,120 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
-
 const ConfirmRidePopUp = (props) => {
+  const [otp, setOtp] = useState('')
+  const totalfare = props.ride?.fare
+  const earn = Math.round(totalfare * 0.35)
+  const platformFee = Math.round(totalfare * 0.25)
+  const fare = Math.round(totalfare - earn - platformFee)
+  const navigate = useNavigate()
 
-const [otp, setOtp] = useState('')
-const totalfare = props.ride?.fare
-const earn = Math.round(totalfare*0.35)
-const platformFee = Math.round(totalfare*0.25)
-const fare = Math.round(totalfare - earn - platformFee) 
-const navigate = useNavigate()
-
-const submitHandler = async (e) => {
-    e.preventDefault();   
-
+  const submitHandler = async (e) => {
+    e.preventDefault();
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride`, {
-            params: {
-                rideId: props.ride._id,
-                otp: otp
-            },
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-        });
-
-        if (response.status === 200) {
-            // console.log(" Ride started successfully:", response.data);
-            props.setConfirmRidePopupPanel(false);
-            props.setRidePopupPanel(false);
-            // if (!props.ride) {
-            //     console.error(" props.ride is undefined in ConfirmRidePopUp!");
-            //     return;
-            // }
-            navigate('/captain-riding', { state: { ride: props.ride } });
-        } else {
-            alert(" Incorrect OTP! Please try again.");
-        }
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride`, {
+        params: { rideId: props.ride._id, otp: otp },
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      if (response.status === 200) {
+        props.setConfirmRidePopupPanel(false);
+        props.setRidePopupPanel(false);
+        navigate('/captain-riding', { state: { ride: props.ride } });
+      } else {
+        alert("Incorrect OTP! Please try again.");
+      }
     } catch (error) {
-        console.error(" Error in starting ride:", error.response?.data || error.message);
-        alert(" Failed to start ride. Please try again.");
+      console.error("Error in starting ride:", error.response?.data || error.message);
+      alert("Failed to start ride. Please try again.");
     }
-};
+  };
 
-return (
-<div >
-    <div className=''>
-        <h5 onClick={() => {
-                    props.setConfirmRidePopup(false)
-                }}
-            className='absolute my-2 px-1 py-2 w-[90%] text-center top-0'><i className="text-3xl text-gray-300 ri-arrow-down-wide-line"></i>
-        </h5>
-        <h4 className='my-5 p-2 text-lg font-bold'>Confirm this ride to Start</h4>
-    </div>    
-    {/* =================================================== USER INFO ========================================================= */}
-    <div className='flex items-center justify-between border-gray-600 border-b-2 p-2'>
-        <div className='flex items-center gap-3 '>  
-            <div className='flex items-center justify-between gap-2 '>
-                <img className='h-16 rounded-full' src={upfp} alt="" />
-                <div className='text-right'>
-                    <h4 className='text-lg font-bold uppercase'>{props.ride?.user.fullname.firstname + " " + props.ride?.user.fullname.lastname}</h4>                                     
-                </div>
-            </div>       
+  return (
+    <div className='h-full flex flex-col'>
+      <div className='sheet-handle mt-2' />
+      <h5 onClick={() => props.setConfirmRidePopup(false)}
+        className='absolute top-4 right-5 text-[#86868b] cursor-pointer hover:text-[#1d1d1f] transition-colors'>
+        <i className="text-2xl ri-close-line"></i>
+      </h5>
+
+      <h4 className='text-[22px] font-semibold text-[#1d1d1f] mt-3 mb-5'>Verify & Start</h4>
+
+      {/* User card */}
+      <div className='flex items-center justify-between mb-4'>
+        <div className='flex items-center gap-3'>
+          <img className='h-12 w-12 rounded-2xl object-cover' src={upfp} alt="User" />
+          <h4 className='text-[16px] font-semibold text-[#1d1d1f] capitalize'>
+            {props.ride?.user.fullname.firstname + " " + props.ride?.user.fullname.lastname}
+          </h4>
         </div>
-        {/* =================================================== DISTANCE ========================================================= */}
-        <h5 className='text-xl text-[#F7F7F9] font-bold bg-[c] px-2 py-1 rounded-md '>{props.ride?.distance}kms</h5>
-    </div>
-    {/* =================================================== PICKUP ========================================================= */}
-    <div className='flex items-center gap-5 p-3 border-b-2'>
-        <i className=" text-lg text-[#A44720] ri-map-pin-3-line"></i>
-        <div>
-            <p className='text-sm -mt-1 text-gray-600'>{props.ride?.pickup}</p>
+        <div className='bg-[#0066cc] text-white text-[13px] font-bold px-3 py-1 rounded-xl'>
+          {props.ride?.distance}kms
         </div>
-    </div>
-    {/* =================================================== DROP ========================================================= */}
-    <div className='flex items-center gap-5 p-3 border-b-2'>
-        <i className=" text-lg text-[#1C8147] ri-map-pin-4-line"></i>
-        <div>
-            <p className='text-sm -mt-1 text-gray-600'>{props.ride?.destination}</p>
+      </div>
+
+      {/* Route */}
+      <div className='bg-[#f5f5f7] rounded-2xl p-3 space-y-0'>
+        <div className='flex items-center gap-3 py-2.5'>
+          <div className='w-8 h-8 rounded-xl bg-[#0066cc]/10 flex items-center justify-center flex-shrink-0'>
+            <i className="text-[14px] text-[#0066cc] ri-map-pin-3-line"></i>
+          </div>
+          <p className='text-[14px] text-[#86868b] flex-1 truncate'>{props.ride?.pickup}</p>
         </div>
-    </div>
-    {/* =================================================== MONEY ========================================================= */}
-    <div className='flex flex-col w-full justify-between items-center gap-5 p-3 border-b-2'>
-            <div className='flex w-full justify-between'>
-                <p className='text-sm text-gray-600'>Fare</p>
-                <p className='text-sm text-gray-600'>₹{fare}</p>
-            </div>
-            <div className='flex w-full justify-between'>
-                <p className='text-sm text-gray-600'>Platform Fee</p>
-                <p className='text-sm text-gray-600'>₹{platformFee}</p>
-            </div>
-            <div className='flex w-full justify-between'>
-                <p className='text-sm text-gray-600'>Your Earning</p>
-                <p className='text-sm text-gray-600'>₹{earn}</p>
-            </div>
-            <div className='flex w-full justify-between font-bold '>                
-                <p className='text-lg'><i className=" text-lg ri-cash-line"></i>Total</p>
-                <p className='text-lg'>₹{totalfare}</p>
+        <div className='h-px bg-white' />
+        <div className='flex items-center gap-3 py-2.5'>
+          <div className='w-8 h-8 rounded-xl bg-[#1d1d1f]/5 flex items-center justify-center flex-shrink-0'>
+            <i className="text-[14px] text-[#1d1d1f] ri-map-pin-4-line"></i>
+          </div>
+          <p className='text-[14px] text-[#86868b] flex-1 truncate'>{props.ride?.destination}</p>
         </div>
+      </div>
+
+      {/* Fare breakdown */}
+      <div className='mt-4 space-y-2.5'>
+        <div className='flex justify-between'>
+          <span className='text-[14px] text-[#86868b]'>Base fare</span>
+          <span className='text-[14px] text-[#86868b]'>₹{fare}</span>
+        </div>
+        <div className='flex justify-between'>
+          <span className='text-[14px] text-[#86868b]'>Platform fee</span>
+          <span className='text-[14px] text-[#86868b]'>₹{platformFee}</span>
+        </div>
+        <div className='flex justify-between'>
+          <span className='text-[14px] text-[#86868b]'>Your earning</span>
+          <span className='text-[14px] text-[#0066cc] font-semibold'>₹{earn}</span>
+        </div>
+        <div className='divider' />
+        <div className='flex justify-between'>
+          <span className='text-[16px] font-semibold text-[#1d1d1f]'>Total</span>
+          <span className='text-[16px] font-semibold text-[#1d1d1f]'>₹{totalfare}</span>
+        </div>
+      </div>
+
+      {/* OTP */}
+      <form onSubmit={(e) => submitHandler(e)} className='mt-auto'>
+        <div className='mt-5 mb-4'>
+          <label className='text-[12px] font-medium text-[#86868b] uppercase tracking-wider mb-2 block text-center'>Enter ride OTP</label>
+          <input
+            value={otp} onChange={(e) => setOtp(e.target.value)}
+            type='number'
+            className='input-premium text-center font-mono tracking-[0.3em] text-[22px] font-bold'
+            placeholder='• • • •'
+            autoComplete="one-time-code"
+          />
+        </div>
+        <div className='flex gap-3'>
+          <button type='button'
+            onClick={() => { props.setRidePopupPanel(false); props.setConfirmRidePopupPanel(false); }}
+            className='btn-ghost flex-1'>
+            Cancel
+          </button>
+          <button type='submit' onClick={(e) => submitHandler(e)}
+            className='btn-hero flex-1'>
+            Start Ride
+          </button>
+        </div>
+      </form>
     </div>
-    <div>
-        <form onSubmit={(e)=>{
-            submitHandler(e)
-        }}>
-            {/*============================================    OTP      ========================================================================= */}
-            <div className='flex flex-col w-full justify-between items-center gap-5 p-3 border-b-2'>
-                    <input 
-                        value={otp}
-                        onChange={(e)=>{setOtp(e.target.value)}}
-                        type='number' 
-                        className='bg-[#F7F7F9] rounded-md px-4 py-2  border w-full text-base outline-none focus:ring-2 focus:ring-[#EFBE1D] placeholder:text-base placeholder:font-mono' 
-                        placeholder='Enter OTP'                 
-                    />
-                
-            </div>
-            {/* =================================================== BUTTONS  ========================================================= */}
-            <div className='relative flex justify-center w-full items-center pt-4 gap-2'>        
-                <button
-                    onClick={()=>{
-                        props.setRidePopupPanel(false)
-                        props.setConfirmRidePopupPanel(false)
-                    }}
-                    className='flex justify-center items-center w-2/3 text-[#F7F7F9] font-semibold py-2 rounded-md bg-[#A44720] active:scale-[99%] transition-transform duration-100'>CANCEL</button>
-                <button
-                    onClick={(e) => submitHandler(e)}
-                    className='flex justify-center items-center w-2/3 text-[#F7F7F9] font-semibold py-2 rounded-md bg-[#1C8147] active:scale-[99%] transition-transform duration-100'>
-                    CONFIRM
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
   )
 }
 
